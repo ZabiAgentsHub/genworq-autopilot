@@ -465,33 +465,59 @@
   /* ---------- WORK: reveal + draggable rail ---------- */
   function initWork() {
     const section = $('.work');
-    const cards = $$('.card');
+    const cards = $$('.card'); // originals only — captured before the rail clones them
+    initDrag($('[data-ticker]'));
     gsap
       .timeline({ scrollTrigger: { trigger: section, start: 'top 70%', once: true, markers: false } })
       .fromTo($$('.r', section), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.06 })
-      .fromTo(cards, { x: 160, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 1.1, stagger: 0.08 }, '-=0.5');
-
-    initDrag($('[data-ticker]'));
+      .fromTo(cards, { x: 160, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 1.1, stagger: { amount: 0.6 } }, '-=0.5');
   }
 
+  /* Infinite industries rail: the card set is cloned once so the track can
+     wrap seamlessly; it drifts on its own (paused on hover / drag / offscreen)
+     and stays fully draggable with momentum and velocity skew. */
   function initDrag(el) {
     if (!el) return;
     const track = el.querySelector('.ticker__track');
+    const originals = Array.from(track.children);
+    originals.forEach((li) => {
+      const clone = li.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+
     const state = { x: 0 };
+    const speed = Number(el.dataset.railSpeed) || 36; // px per second
     const setX = gsap.quickSetter(track, 'x', 'px');
     const skewTo = gsap.quickTo(track, 'skewX', { duration: 0.4, ease: 'power3.out' });
-    let dragging = false;
+    let loopW = 0;
+    let dragging = false, hovering = false, visible = false, flinging = false;
     let startX = 0, startPointer = 0, lastX = 0, lastT = 0, vel = 0, moved = 0;
 
-    const pad = () => parseFloat(getComputedStyle(el).paddingLeft) || 0;
-    const min = () => Math.min(0, el.clientWidth - pad() * 2 - track.scrollWidth);
-    const clamp = (v) => Math.max(min(), Math.min(0, v));
-    const rubber = (v) => {
-      const lo = min();
-      if (v > 0) return v * 0.35;
-      if (v < lo) return lo + (v - lo) * 0.35;
-      return v;
+    const measure = () => {
+      const first = originals[0];
+      const firstClone = track.children[originals.length];
+      loopW = firstClone.offsetLeft - first.offsetLeft;
     };
+    const wrap = (v) => (loopW ? ((v % loopW) - loopW) % loopW : v); // keeps v in (-loopW, 0]
+    const apply = () => setX(state.x);
+
+    measure();
+    window.addEventListener('resize', () => { measure(); state.x = wrap(state.x); apply(); });
+
+    // Drift only while on screen and idle.
+    gsap.ticker.add((_t, dt) => {
+      if (!visible || dragging || hovering || flinging) return;
+      state.x = wrap(state.x - (speed * dt) / 1000);
+      apply();
+    });
+    const io = new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }, { rootMargin: '10% 0px' });
+    io.observe(el);
+
+    if (!isTouch) {
+      el.addEventListener('pointerenter', () => (hovering = true));
+      el.addEventListener('pointerleave', () => (hovering = false));
+    }
 
     el.addEventListener('pointerdown', (e) => {
       if (e.button !== undefined && e.button !== 0) return;
@@ -500,6 +526,7 @@
       el.classList.add('is-dragging');
       el.setPointerCapture(e.pointerId);
       gsap.killTweensOf(state);
+      flinging = false;
       startPointer = e.clientX;
       startX = state.x;
       lastX = e.clientX;
@@ -516,8 +543,8 @@
       vel = (e.clientX - lastX) / dt; // px per ms
       lastX = e.clientX;
       lastT = now;
-      state.x = rubber(startX + dx);
-      setX(state.x);
+      state.x = wrap(startX + dx);
+      apply();
       skewTo(Math.max(-8, Math.min(8, -vel * 6)));
     });
 
@@ -526,8 +553,14 @@
       dragging = false;
       el.classList.remove('is-dragging');
       skewTo(0);
-      const target = clamp(state.x + vel * 280);
-      gsap.to(state, { x: target, duration: 0.9, ease: 'power3.out', onUpdate: () => setX(state.x) });
+      flinging = true;
+      gsap.to(state, {
+        x: state.x + vel * 280,
+        duration: 0.9,
+        ease: 'power3.out',
+        onUpdate: () => { state.x = wrap(state.x); apply(); },
+        onComplete: () => (flinging = false),
+      });
     };
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
@@ -535,11 +568,6 @@
 
     // Suppress accidental clicks inside cards after a real drag.
     el.addEventListener('click', (e) => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);
-
-    window.addEventListener('resize', () => {
-      state.x = clamp(state.x);
-      setX(state.x);
-    });
   }
 
   /* ---------- CTA ---------- */

@@ -822,6 +822,7 @@ html:not(.js) .w--scale, html.reduced .w--scale { color: var(--brand-glow); }
   touch-action: pan-y;
 }
 .ticker.is-dragging { cursor: grabbing; }
+html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 1rem; }
 .ticker__track {
   display: flex;
   gap: clamp(1rem, 2vw, 1.5rem);

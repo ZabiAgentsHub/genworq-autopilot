@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/scene-01-architect.jpg" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
   <!-- Fonts load without blocking first paint; metric-matched fallbacks in style.css hold the layout. -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Inter:wght@400;500;600&display=swap"></noscript>
@@ -306,12 +306,12 @@
     <section class="work" id="work" aria-labelledby="work-title">
       <header class="section-head">
         <div>
-          <p class="eyebrow r"><span class="eyebrow__dot"></span>Featured work</p>
-          <h2 class="section-title r" id="work-title">Systems that <em>ship.</em></h2>
+          <p class="eyebrow r"><span class="eyebrow__dot"></span>Industries we automate</p>
+          <h2 class="section-title r" id="work-title">Systems that <em>ship,</em> in every trade.</h2>
         </div>
-        <p class="section-hint r" aria-hidden="true">Drag to explore <span class="section-hint__arrow">→</span></p>
+        <p class="section-hint r" aria-hidden="true">Drag, or just watch <span class="section-hint__arrow">→</span></p>
       </header>
-      <div class="ticker" data-ticker>
+      <div class="ticker" data-ticker data-rail-speed="38">
         <ul class="ticker__track">
           <li class="card">
             <div class="card__grid" aria-hidden="true"></div>
@@ -322,7 +322,7 @@
           <li class="card">
             <div class="card__grid" aria-hidden="true"></div>
             <div class="card__top"><span class="card__cat">E-commerce</span><span class="card__index">02</span></div>
-            <p class="card__result">Support and abandoned-cart flows now recover revenue overnight.</p>
+            <p class="card__result">Support and abandoned-cart flows recover revenue overnight.</p>
             <span class="card__meta">Agentic support · order flow · lifecycle email</span>
           </li>
           <li class="card">
@@ -336,6 +336,54 @@
             <div class="card__top"><span class="card__cat">Coaching &amp; Consulting</span><span class="card__index">04</span></div>
             <p class="card__result">Lead-to-call pipeline runs without a single manual follow-up.</p>
             <span class="card__meta">Lead scoring · nurture sequences · call booking</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Healthcare &amp; Clinics</span><span class="card__index">05</span></div>
+            <p class="card__result">Appointment requests answered and booked around the clock.</p>
+            <span class="card__meta">Intake agent · reminders · no-show recovery</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Real Estate &amp; Property</span><span class="card__index">06</span></div>
+            <p class="card__result">Every listing enquiry qualified and scheduled while the agent is on site.</p>
+            <span class="card__meta">Enquiry triage · viewing booking · CRM sync</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Legal Services</span><span class="card__index">07</span></div>
+            <p class="card__result">Intake and consult booking handled before a lawyer touches the file.</p>
+            <span class="card__meta">Client intake · document chase · calendar</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Home Services</span><span class="card__index">08</span></div>
+            <p class="card__result">Quotes go out in minutes. Jobs land on the calendar by themselves.</p>
+            <span class="card__meta">HVAC · plumbing · cleaning · landscaping</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Accounting &amp; Bookkeeping</span><span class="card__index">09</span></div>
+            <p class="card__result">Document chasing and client reminders run themselves at month-end.</p>
+            <span class="card__meta">Reminder sequences · portal sync · reporting</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Construction &amp; Trades</span><span class="card__index">10</span></div>
+            <p class="card__result">Tender enquiries triaged, site visits booked, follow-ups never dropped.</p>
+            <span class="card__meta">Enquiry routing · site-visit booking · follow-up</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Fitness &amp; Gyms</span><span class="card__index">11</span></div>
+            <p class="card__result">Trial sign-ups nurtured to membership without a front-desk chase.</p>
+            <span class="card__meta">Trial funnel · WhatsApp nurture · billing hand-off</span>
+          </li>
+          <li class="card">
+            <div class="card__grid" aria-hidden="true"></div>
+            <div class="card__top"><span class="card__cat">Automotive Services</span><span class="card__index">12</span></div>
+            <p class="card__result">Service bookings and reminders on autopilot, bay by bay.</p>
+            <span class="card__meta">Booking agent · reminders · review requests</span>
           </li>
         </ul>
       </div>
@@ -416,6 +464,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
