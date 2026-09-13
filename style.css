@@ -895,6 +895,7 @@ html:not(.js) .w--scale, html.reduced .w--scale { color: var(--brand-text); }
 .ticker.is-dragging { cursor: grabbing; }
 html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 1rem; }
 .ticker__track {
+  position: relative; /* cards measure offsets against the track, not the section */
   display: flex;
   gap: clamp(1rem, 2vw, 1.5rem);
   width: max-content;

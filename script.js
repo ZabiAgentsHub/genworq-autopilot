@@ -582,7 +582,10 @@
 
     measure();
     state.x = targetX(0); setX(state.x); mark();
-    window.addEventListener('resize', () => { measure(); state.x = targetX(index); setX(state.x); });
+    const relayout = () => { measure(); state.x = targetX(index); setX(state.x); };
+    window.addEventListener('resize', relayout);
+    window.addEventListener('load', relayout, { once: true });
+    ScrollTrigger.addEventListener('refresh', relayout);
 
     if (prevBtn) prevBtn.addEventListener('click', () => go(index - 1));
     if (nextBtn) nextBtn.addEventListener('click', () => go(index + 1));
