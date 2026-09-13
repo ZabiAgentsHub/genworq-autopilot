@@ -243,6 +243,8 @@ html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [dat
   box-shadow: 0 0 0 0 rgba(255, 106, 26, 0.35), 0 0 90px rgba(255, 106, 26, 0.28);
 }
 .btn--giant:hover { box-shadow: 0 0 0 6px rgba(255, 106, 26, 0.14), 0 0 120px rgba(255, 106, 26, 0.4); }
+.btn--ink { color: var(--fg); border-color: rgba(10, 10, 10, 0.25); }
+.btn--ink:hover { border-color: var(--fg); }
 .btn--dark { background: var(--bg); color: var(--fg); }
 .btn--dark:hover { background: #1c1c1c; }
 .btn__arrow { display: inline-block; transition: transform 240ms var(--ease); }
@@ -1081,12 +1083,50 @@ html:not(.js) .timeline__fill, html.reduced .timeline__fill { transform: none; }
   html.js:not(.reduced) .tstep.is-lit .tstep__when { transform: none; }
 }
 
+/* ---------- ABOUT — arc + operator note ---------- */
+.about {
+  padding: clamp(7rem, 18vh, 12rem) var(--gutter) clamp(5rem, 12vh, 8rem);
+  overflow: hidden;
+  text-align: center;
+}
+.about__arc {
+  position: absolute;
+  left: 50%; top: 0;
+  width: min(140vw, 96rem);
+  height: min(140vw, 96rem);
+  transform: translate(-50%, -58%);
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
+    transparent 61.5%,
+    rgba(255, 106, 26, 0.10) 62%,
+    rgba(255, 106, 26, 0.55) 63.5%,
+    rgba(255, 106, 26, 0.85) 64.5%,
+    rgba(255, 106, 26, 0.35) 66%,
+    rgba(255, 179, 122, 0.10) 68%,
+    transparent 72%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+.about__inner { position: relative; max-width: 46rem; margin: 0 auto; }
+.about__title {
+  margin-top: 1.25rem;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144;
+  font-optical-sizing: auto;
+  font-size: clamp(2.2rem, 4.6vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.about__title em { font-style: normal; color: var(--brand-text); }
+.about__copy { margin: 1.75rem auto 0; max-width: 60ch; font-size: clamp(1rem, 1.25vw, 1.15rem); line-height: 1.65; color: var(--muted); }
+.about__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 2.25rem; }
+
 /* ---------- FINAL CTA ---------- */
 .cta {
-  min-height: var(--vh);
   display: grid;
   place-items: center;
-  padding: calc(var(--nav-h) * 1.5) var(--gutter);
+  padding: clamp(6rem, 16vh, 11rem) var(--gutter);
   overflow: hidden;
   text-align: center;
 }
@@ -1118,6 +1158,49 @@ html:not(.js) .timeline__fill, html.reduced .timeline__fill { transform: none; }
   line-height: 1.45;
   color: var(--muted);
 }
+
+/* ---------- FAQ ---------- */
+.faq { padding: clamp(5rem, 14vh, 10rem) var(--gutter); }
+.faq__inner { max-width: 48rem; margin: 0 auto; }
+.faq__head { text-align: center; margin-bottom: clamp(2.5rem, 6vh, 4rem); }
+.faq__head .section-sub { margin-left: auto; margin-right: auto; }
+.faq__list { border-top: 1px solid var(--line); }
+.faq__item { border-bottom: 1px solid var(--line); }
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q h3 { font-family: var(--font-body); font-weight: 600; font-size: 1.05rem; letter-spacing: -0.01em; line-height: 1.35; }
+.faq__icon {
+  position: relative;
+  flex: none;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  transition: background-color 300ms var(--ease), border-color 300ms var(--ease), transform 300ms var(--ease);
+}
+.faq__icon::before, .faq__icon::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 12px; height: 1.5px;
+  background: var(--brand-text);
+  transform: translate(-50%, -50%);
+  transition: transform 300ms var(--ease);
+}
+.faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faq__item[open] .faq__icon { background: rgba(255, 106, 26, 0.1); border-color: rgba(255, 106, 26, 0.4); }
+.faq__item[open] .faq__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+.faq__q:hover .faq__icon { border-color: rgba(255, 106, 26, 0.5); }
+.faq__q:focus-visible { outline: 2px solid var(--brand-glow); outline-offset: 4px; border-radius: 6px; }
+.faq__a { padding: 0 0 1.5rem; max-width: 62ch; }
+.faq__a p { font-size: var(--step-0); line-height: 1.65; color: var(--muted); }
 
 /* ---------- FOOTER + CONTACT ---------- */
 .footer {

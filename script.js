@@ -33,7 +33,10 @@
                 momentum and velocity skew.
       PROCESS   timeline: orange rail draws with scroll (scrub), nodes light
                 and steps slide in from their side as the line passes.
-      CTA       reveals once. FOOTER holds the contact form.
+      ABOUT     arc graphic + operator note; reveals once.
+      CTA       reveals once (no longer full-viewport).
+      FAQ       eight <details> Q&As with FAQPage JSON-LD; reveal once.
+      FOOTER    holds the contact form.
 
    3. Type scale (1.333): 0.75 / 1 / 1.333 / 1.777 / 2.369 / 3.157 /
       4.209 rem. Display H1: clamp(4rem, 12vw, 13.75rem) (desktop),
@@ -53,8 +56,10 @@
       6   .work            —       —             reveal once
       7   .process         —       —             header reveal once
       7b  .timeline        0.6     —             rail draw + node lighting
-      8   .cta             —       —             reveal once
-      9-11  .pillar ×3     —       —             mobile/reduced only,
+      8   .about           —       —             reveal once
+      9   .cta             —       —             reveal once
+      10  .faq             —       —             reveal once
+      11-13 .pillar ×3     —       —             mobile/reduced only,
                                                 replaces #3
       "Hold" = the section supplies the scroll distance and its stage is
       CSS position:sticky; ScrollTrigger scrubs across the section instead
@@ -141,7 +146,9 @@
     initReveal('.ribbon', '.ribbon .r', { start: 'top 85%', stagger: 0.1 });
     initWork();
     initProcess();
+    initReveal('.about', '.about .r', { start: 'top 75%', stagger: 0.1 });
     initCTA();
+    initReveal('.faq', '.faq .r', { start: 'top 78%', stagger: 0.05 });
     initVideos();
     initContact();
 
@@ -602,7 +609,7 @@
 
   /* ---------- CTA ---------- */
   function initCTA() {
-    initReveal('.cta', '.cta .r', { start: 'top 70%', stagger: 0.1 });
+    initReveal('.cta', '.cta .r', { start: 'top 82%', stagger: 0.1 });
   }
 
   /* ---------- VIDEO: hero autoplay loop with poster fallback ---------- */
