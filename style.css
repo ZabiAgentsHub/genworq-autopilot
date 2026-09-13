@@ -914,7 +914,31 @@ html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 
   overflow: hidden;
   transition: border-color 300ms var(--ease), transform 500ms var(--ease), box-shadow 500ms var(--ease);
 }
-.card:hover { border-color: rgba(255, 106, 26, 0.6); transform: translateY(-4px); }
+.card { opacity: 0.72; transition: border-color 400ms var(--ease), transform 600ms var(--ease), box-shadow 600ms var(--ease), opacity 400ms var(--ease); }
+.card.is-active {
+  opacity: 1;
+  border-color: rgba(255, 106, 26, 0.7);
+  transform: translateY(-8px);
+  box-shadow: 0 2px 4px rgba(10, 10, 10, 0.05), 0 28px 60px rgba(255, 106, 26, 0.16);
+}
+html.reduced .card, html:not(.js) .card { opacity: 1; }
+.ticker:focus-visible { outline: 2px solid var(--brand-glow); outline-offset: 6px; border-radius: 12px; }
+.rail-controls { display: inline-flex; align-items: center; gap: 0.75rem; }
+.rail-btn {
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #FFFFFF;
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color 240ms var(--ease), background-color 240ms var(--ease), color 240ms var(--ease), transform 240ms var(--ease);
+}
+.rail-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.rail-btn:hover { border-color: var(--brand); background: var(--brand); color: #FFFFFF; transform: scale(1.04); }
+.rail-btn:focus-visible { outline: 2px solid var(--brand-glow); outline-offset: 3px; }
+.rail-count { min-width: 5ch; text-align: center; font-size: var(--step--1); letter-spacing: 0.15em; color: var(--muted); font-variant-numeric: tabular-nums; }
 .card__grid {
   position: absolute;
   inset: 0;
@@ -933,14 +957,37 @@ html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 
 .card > :not(.card__grid) { position: relative; }
 .card__top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.25rem; }
 .card__badge {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  background: rgba(255, 106, 26, 0.1);
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #FFFFFF;
   color: var(--brand-text);
+  box-shadow: 0 6px 18px rgba(10, 10, 10, 0.08), inset 0 0 0 1px rgba(255, 106, 26, 0.18);
+  margin: 8px 0 0 8px;
 }
-.card__icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.card__orbit {
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 106, 26, 0.55);
+  animation: orbit 14s linear infinite;
+  animation-play-state: paused;
+}
+.card__orbit::before {
+  content: "";
+  position: absolute;
+  top: -5px; left: 50%;
+  width: 9px; height: 9px;
+  margin-left: -4.5px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.18), 0 0 12px rgba(255, 106, 26, 0.6);
+}
+@keyframes orbit { to { transform: rotate(360deg); } }
+.card.is-active .card__orbit { animation-play-state: running; }
+.card__icon { position: relative; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .card__index { font-size: var(--step--1); letter-spacing: 0.15em; color: var(--muted); font-variant-numeric: tabular-nums; }
 .card__title {
   font-family: var(--font-body);
@@ -950,6 +997,18 @@ html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 
   line-height: 1.2;
 }
 .card__desc { font-size: 0.93rem; line-height: 1.55; color: var(--muted); }
+.card__first {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: rgba(255, 106, 26, 0.06);
+  border: 1px solid rgba(255, 106, 26, 0.16);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+.card__first span { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand-text); }
 .card__metric {
   display: inline-flex;
   align-items: center;
@@ -971,7 +1030,9 @@ html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 
   background: var(--bg-elev);
 }
 @media (min-width: 769px) {
-  .card { width: 22rem; padding: 1.75rem; }
+  .card { width: 27rem; padding: 2rem 2rem 1.9rem; gap: 0.95rem; }
+  .card__title { font-size: 1.45rem; }
+  .card__desc { font-size: 1rem; }
 }
 
 /* ---------- PROCESS — scroll-drawn timeline ---------- */
@@ -1352,5 +1413,6 @@ html.reduced .btn, html.reduced .nav__link::after, html.reduced .footer__link::a
   html.js:not(.reduced) .mission { height: auto; }
   html.js:not(.reduced) .mission__pin { position: static; height: auto; min-height: 0; padding: clamp(5rem, 14vh, 8rem) var(--gutter); }
   .marquee { box-shadow: none; }
-  .agent:hover, .card:hover { transform: none; }
+  .agent:hover { transform: none; }
+  .card.is-active { transform: translateY(-4px); }
 }
