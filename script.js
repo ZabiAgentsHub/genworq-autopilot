@@ -31,7 +31,8 @@
       RIBBON    orange full-bleed conversion band; reveals once.
       WORK      header + cards reveal once; rail is draggable with
                 momentum and velocity skew.
-      PROCESS   four steps reveal once; orange top rule lights per step.
+      PROCESS   timeline: orange rail draws with scroll (scrub), nodes light
+                and steps slide in from their side as the line passes.
       CTA       reveals once. FOOTER holds the contact form.
 
    3. Type scale (1.333): 0.75 / 1 / 1.333 / 1.777 / 2.369 / 3.157 /
@@ -50,7 +51,8 @@
       4   .agents          —       —             reveal once
       5   .ribbon          —       —             reveal once
       6   .work            —       —             reveal once
-      7   .process         —       —             reveal once, steps light
+      7   .process         —       —             header reveal once
+      7b  .timeline        0.6     —             rail draw + node lighting
       8   .cta             —       —             reveal once
       9-11  .pillar ×3     —       —             mobile/reduced only,
                                                 replaces #3
@@ -424,14 +426,40 @@
     });
   }
 
-  /* ---------- PROCESS: steps reveal, orange rule lights per step ---------- */
+  /* ---------- PROCESS: scroll-drawn timeline ----------
+     One scrubbed tween draws the orange rail; on every update the nodes the
+     line has passed get .is-lit, which CSS turns into the slide-in reveal. */
   function initProcess() {
     const section = $('.process');
-    const steps = $$('.step');
-    if (!section) return;
-    const tl = initReveal('.process', '.process .r', { start: 'top 70%', stagger: 0.1 });
-    if (!tl) return;
-    steps.forEach((s, i) => tl.add(() => s.classList.add('is-lit'), 0.35 + i * 0.18));
+    const timeline = $('[data-timeline]');
+    if (!section || !timeline) return;
+    initReveal('.process', '.process .r', { start: 'top 70%', stagger: 0.1 });
+
+    const fill = $('.timeline__fill', timeline);
+    const steps = $$('.tstep', timeline);
+    let nodeTops = [];
+    const measure = () => {
+      const base = timeline.getBoundingClientRect().top;
+      nodeTops = steps.map((s) => s.querySelector('.tstep__node').getBoundingClientRect().top - base + 9);
+    };
+    measure();
+
+    gsap.to(fill, {
+      scaleY: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: timeline,
+        start: 'top 72%',
+        end: 'bottom 62%',
+        scrub: 0.6,
+        markers: false,
+        onRefresh: measure,
+        onUpdate: (self) => {
+          const y = self.progress * timeline.offsetHeight;
+          steps.forEach((s, i) => s.classList.toggle('is-lit', nodeTops[i] <= y));
+        },
+      },
+    });
   }
 
   /* ---------- CONTACT FORM ----------

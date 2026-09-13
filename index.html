@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/scene-01-architect.jpg" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
   <!-- Fonts load without blocking first paint; metric-matched fallbacks in style.css hold the layout. -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Inter:wght@400;500;600&display=swap"></noscript>
@@ -413,36 +413,47 @@
       </div>
     </section>
 
-    <!-- 9. HOW WE WORK -->
+    <!-- 9. HOW WE WORK — timeline -->
     <section class="process band band--light" id="process" aria-labelledby="process-title">
-      <header class="section-head">
-        <div>
-          <p class="eyebrow r"><span class="eyebrow__dot"></span>How we work</p>
-          <h2 class="section-title r" id="process-title">From audit to <em>autopilot.</em></h2>
-        </div>
-        <p class="section-hint r">Four steps. One system at a time.</p>
+      <header class="process__head">
+        <p class="eyebrow r"><span class="eyebrow__dot"></span>How we work</p>
+        <h2 class="section-title r" id="process-title">Your path to <em>autopilot.</em></h2>
+        <p class="section-sub r">Clearly scoped, transparent, and yours to keep at the end.</p>
       </header>
-      <ol class="process__steps">
-        <li class="step r">
-          <span class="step__num">01</span>
-          <h3 class="step__title">Audit</h3>
-          <p class="step__desc">We map where leads, hours and money leak: inbox, pipeline, calendar, reporting. You get the list, ranked by cost.</p>
-        </li>
-        <li class="step r">
-          <span class="step__num">02</span>
-          <h3 class="step__title">Blueprint</h3>
-          <p class="step__desc">We design the agent and workflow system, and the order to ship it, starting with the leak that costs you most.</p>
-        </li>
-        <li class="step r">
-          <span class="step__num">03</span>
-          <h3 class="step__title">Build &amp; integrate</h3>
-          <p class="step__desc">We wire CRM, inbox, calendar, invoicing and ad platforms into one system, then test it on live traffic before handover.</p>
-        </li>
-        <li class="step r">
-          <span class="step__num">04</span>
-          <h3 class="step__title">Optimize &amp; scale</h3>
-          <p class="step__desc">We monitor, tune and add the next system. Coaching for your team comes with it, so the empire keeps running itself.</p>
-        </li>
+      <ol class="timeline" data-timeline>
+        <span class="timeline__rail" aria-hidden="true"><i class="timeline__fill"></i></span>
+          <li class="tstep">
+            <div class="tstep__body">
+              <h3 class="tstep__title"><span class="tstep__num">1.</span> The audit</h3>
+              <p class="tstep__desc">We map where leads, hours and money leak: inbox, pipeline, calendar, reporting. You get the list, ranked by what each leak costs you.</p>
+            </div>
+            <span class="tstep__node" aria-hidden="true"></span>
+            <span class="tstep__when">Week 1</span>
+          </li>
+          <li class="tstep">
+            <div class="tstep__body">
+              <h3 class="tstep__title"><span class="tstep__num">2.</span> The blueprint</h3>
+              <p class="tstep__desc">We design the agent and workflow system and the order to ship it, starting with the leak that costs you most. You sign off before anything is built.</p>
+            </div>
+            <span class="tstep__node" aria-hidden="true"></span>
+            <span class="tstep__when">Weeks 2–3</span>
+          </li>
+          <li class="tstep">
+            <div class="tstep__body">
+              <h3 class="tstep__title"><span class="tstep__num">3.</span> Build &amp; integrate</h3>
+              <p class="tstep__desc">We wire CRM, inbox, calendar, invoicing and ad platforms into one system, then run it on live traffic with you watching before handover.</p>
+            </div>
+            <span class="tstep__node" aria-hidden="true"></span>
+            <span class="tstep__when">Weeks 4–6</span>
+          </li>
+          <li class="tstep">
+            <div class="tstep__body">
+              <h3 class="tstep__title"><span class="tstep__num">4.</span> Handover &amp; optimize</h3>
+              <p class="tstep__desc">The system is yours. We train your team, monitor and tune it, and add the next system when you're ready for it.</p>
+            </div>
+            <span class="tstep__node" aria-hidden="true"></span>
+            <span class="tstep__when">Ongoing</span>
+          </li>
       </ol>
     </section>
 
@@ -488,6 +499,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
-  <script src="script.js?v=10"></script>
+  <script src="script.js?v=11"></script>
 </body>
 </html>
