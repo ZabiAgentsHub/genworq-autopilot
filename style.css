@@ -46,7 +46,7 @@
 
 @media (min-width: 769px) {
   :root {
-    --display: clamp(3.4rem, 7.4vw, 8rem);       /* compact: the render carries the frame */
+    --display: clamp(2.6rem, 4.3vw, 4.6rem);     /* compact: the copy sits in the left third */
     --grain-opacity: 0.04;
     --nav-h: 5.5rem;
   }
@@ -276,12 +276,19 @@ html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [dat
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
 }
-.nav__brand {
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: inherit;
   font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.24em;
-  color: var(--brand);
+  font-size: 0.98rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
 }
+.brand__mark { width: 22px; height: 22px; color: var(--brand); flex: none; }
+.brand__word { transform: translateY(0.5px); }
+.nav__brand { color: inherit; }
 .nav__links { display: none; }
 .nav__link {
   position: relative;
@@ -358,13 +365,13 @@ html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [dat
   position: relative;
   z-index: 2;
   width: 100%;
-  padding: calc(var(--nav-h) + 1rem) var(--gutter) clamp(4rem, 10vh, 7rem);
+  padding: calc(var(--nav-h) + 1rem) var(--gutter) clamp(3.5rem, 9vh, 6rem);
 }
-.hero__inner { max-width: 44rem; }
-.hero__eyebrow { margin-bottom: 1.5rem; color: rgba(255, 255, 255, 0.72); }
+.hero__inner { max-width: 31rem; }
+.hero__eyebrow { margin-bottom: 1.1rem; color: rgba(255, 255, 255, 0.72); }
 .hero__title {
   font-size: var(--display);
-  line-height: 0.92;
+  line-height: 0.96;
   letter-spacing: -0.03em;
 }
 .hero__line { display: block; }
@@ -387,25 +394,26 @@ html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [dat
   padding-right: 0.06em;
 }
 .hero__sub {
-  margin-top: clamp(1.1rem, 2vw, 1.6rem);
-  max-width: 32ch;
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
-  line-height: 1.45;
+  margin-top: 1rem;
+  max-width: 38ch;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.82);
 }
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: clamp(1.4rem, 2.4vw, 2rem);
+  gap: 0.6rem;
+  margin-top: 1.4rem;
 }
+.hero__actions .btn { font-size: 0.95rem; padding: 0.85em 1.5em; }
 .hero__stats {
   display: grid;
   grid-template-columns: repeat(3, auto);
   justify-content: start;
-  gap: 1.25rem clamp(1.5rem, 3vw, 2.75rem);
-  margin-top: clamp(2rem, 4vh, 3rem);
-  padding-top: 1.25rem;
+  gap: 1rem clamp(1.25rem, 2.4vw, 2.25rem);
+  margin-top: clamp(1.6rem, 3.5vh, 2.5rem);
+  padding-top: 1.1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 .hstat { display: flex; flex-direction: column; gap: 0.3rem; }
@@ -415,7 +423,7 @@ html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [dat
   font-family: var(--font-display);
   font-variation-settings: "opsz" 96;
   font-optical-sizing: auto;
-  font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+  font-size: clamp(1.4rem, 1.9vw, 1.9rem);
   line-height: 1;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
@@ -423,7 +431,7 @@ html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [dat
 .hstat__unit { color: var(--brand); font-style: italic; font-weight: 300; font-size: 0.6em; margin-left: 0.06em; }
 .hstat__unit--pre { margin-left: 0; margin-right: 0.04em; }
 .hstat__unit--word { font-style: normal; font-family: var(--font-body); font-size: 0.42em; margin-left: 0.3em; color: var(--brand-glow); }
-.hstat__label { font-size: 0.72rem; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.62); }
+.hstat__label { font-size: 0.68rem; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.62); }
 @media (max-width: 480px) {
   .hero__stats { grid-template-columns: repeat(3, 1fr); gap: 1rem 0.75rem; }
   .hstat__label { font-size: 0.66rem; }
@@ -464,7 +472,8 @@ html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [dat
 .scroll-cue__label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; }
 @media (min-width: 769px) {
   .scroll-cue { display: flex; bottom: 2rem; }
-  .hero { align-items: end; }
+  .hero { align-items: center; }
+  .hero__content { padding-top: var(--nav-h); padding-bottom: var(--nav-h); }
 }
 
 /* ---------- MARQUEE RIBBON (slides over the sticky hero) ---------- */
@@ -998,7 +1007,7 @@ html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 
 }
 .footer__grid { max-width: 90rem; margin: 0 auto; display: grid; gap: 3rem; }
 .footer__brand { display: grid; align-content: start; gap: 1.25rem; }
-.footer__wordmark { font-weight: 600; font-size: 0.9rem; letter-spacing: 0.24em; color: var(--brand); }
+.footer__wordmark { color: var(--fg); }
 .footer__tag { max-width: 34ch; font-size: var(--step-0); line-height: 1.5; color: var(--muted); }
 .footer__links { display: flex; flex-wrap: wrap; gap: 1.75rem; font-size: var(--step--1); letter-spacing: 0.06em; }
 .footer__legal {
