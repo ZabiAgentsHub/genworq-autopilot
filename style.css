@@ -1085,26 +1085,28 @@ html:not(.js) .timeline__fill, html.reduced .timeline__fill { transform: none; }
 
 /* ---------- ABOUT — arc + operator note ---------- */
 .about {
-  padding: clamp(7rem, 18vh, 12rem) var(--gutter) clamp(5rem, 12vh, 8rem);
+  padding: clamp(6rem, 15vh, 10rem) var(--gutter) clamp(5rem, 12vh, 8rem);
   overflow: hidden;
   text-align: center;
 }
 .about__arc {
   position: absolute;
-  left: 50%; top: 0;
-  width: min(140vw, 96rem);
-  height: min(140vw, 96rem);
-  transform: translate(-50%, -58%);
+  left: 50%; top: -0.75rem;
+  width: min(118vw, 92rem);
+  height: min(118vw, 92rem);
+  transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(circle at center,
-    transparent 61.5%,
-    rgba(255, 106, 26, 0.10) 62%,
-    rgba(255, 106, 26, 0.55) 63.5%,
-    rgba(255, 106, 26, 0.85) 64.5%,
-    rgba(255, 106, 26, 0.35) 66%,
-    rgba(255, 179, 122, 0.10) 68%,
-    transparent 72%);
-  filter: blur(6px);
+  background: radial-gradient(closest-side,
+    rgba(255, 106, 26, 0.035) 0%,
+    rgba(255, 106, 26, 0.02) 88%,
+    transparent 96.4%,
+    rgba(255, 106, 26, 0.45) 97.5%,
+    rgba(255, 106, 26, 0.7) 98.1%,
+    rgba(255, 179, 122, 0.35) 98.9%,
+    transparent 100%);
+  filter: blur(5px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 8%, rgba(0, 0, 0, 0.55) 20%, transparent 34%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 8%, rgba(0, 0, 0, 0.55) 20%, transparent 34%);
   pointer-events: none;
 }
 .about__inner { position: relative; max-width: 46rem; margin: 0 auto; }
