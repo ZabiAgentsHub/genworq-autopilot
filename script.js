@@ -525,69 +525,73 @@
   /* ---------- WORK: reveal + draggable rail ---------- */
   function initWork() {
     const section = $('.work');
-    const cards = $$('.card'); // originals only — captured before the rail clones them
     initDrag($('[data-ticker]'));
-    gsap
-      .timeline({ scrollTrigger: { trigger: section, start: 'top 70%', once: true, markers: false } })
-      .fromTo($$('.r', section), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.06 })
-      .fromTo(cards, { x: 160, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 1.1, stagger: { amount: 0.6 } }, '-=0.5');
+    initReveal('.work', '.work .r', { start: 'top 70%', stagger: 0.08 });
+    return section;
   }
 
-  /* Industries carousel: arrow-driven, one card centred and highlighted.
-     The card set is cloned once so the rail wraps seamlessly in both
-     directions; dragging still works and snaps to the nearest card. */
+  /* Industries carousel (coverflow): the card set is cloned before and after
+     the originals so the centred card always has neighbours; one arrow steps
+     forward, keyboard/drag go both ways. Every frame of the slide, cards are
+     scaled and faded by their distance from the centre. */
   function initDrag(el) {
     if (!el) return;
     const track = el.querySelector('.ticker__track');
     const originals = Array.from(track.children);
     const N = originals.length;
-    originals.forEach((li) => {
-      const clone = li.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      track.appendChild(clone);
-    });
-    const cards = Array.from(track.children);
-    const prevBtn = $('[data-rail-prev]');
+    const cloneSet = () => originals.map((li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); return c; });
+    cloneSet().reverse().forEach((c) => track.insertBefore(c, track.firstChild));
+    cloneSet().forEach((c) => track.appendChild(c));
+    const cards = Array.from(track.children); // 3N
     const nextBtn = $('[data-rail-next]');
-    const counter = $('[data-rail-count]');
 
     const state = { x: 0 };
-    let index = 0;
-    let loopW = 0;
+    let index = N;             // middle set
+    let centers = [];          // card centre positions inside the rail, before transform
+    let cardW = 0;
     const setX = gsap.quickSetter(track, 'x', 'px');
-    const skewTo = gsap.quickTo(track, 'skewX', { duration: 0.4, ease: 'power3.out' });
 
     const padL = () => parseFloat(getComputedStyle(el).paddingLeft) || 0;
-    const measure = () => { loopW = cards[N].offsetLeft - cards[0].offsetLeft; };
-    const targetX = (i) => {
-      const c = cards[i];
-      return el.clientWidth / 2 - padL() - c.offsetLeft - c.offsetWidth / 2;
+    const measure = () => {
+      const pl = padL();
+      centers = cards.map((c) => pl + c.offsetLeft + c.offsetWidth / 2);
+      cardW = cards[0].offsetWidth;
     };
-    const norm = (i) => ((i % N) + N) % N;
-    const mark = () => {
-      cards.forEach((c, k) => c.classList.toggle('is-active', k === index));
-      if (counter) counter.textContent = `${String(norm(index) + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}`;
+    const targetX = (i) => el.clientWidth / 2 - centers[i];
+    const paint = () => {
+      setX(state.x);
+      const mid = el.clientWidth / 2;
+      for (let k = 0; k < cards.length; k++) {
+        const d = Math.min(2.5, Math.abs(centers[k] + state.x - mid) / cardW); // distance in card widths
+        gsap.set(cards[k], {
+          scale: 1 - 0.11 * d,
+          opacity: Math.max(0.28, 1 - 0.38 * d),
+          y: 14 * d,
+          zIndex: 20 - Math.round(d * 6),
+        });
+      }
     };
+    const mark = () => cards.forEach((c, k) => c.classList.toggle('is-active', k === index));
     const settle = () => {
-      // After landing on a clone, jump silently to its original (same pixels).
-      if (index >= N) { index -= N; state.x = targetX(index); setX(state.x); mark(); }
+      if (index < N) index += N;
+      else if (index >= 2 * N) index -= N;
+      state.x = targetX(index);
+      paint(); mark();
     };
     const go = (i) => {
-      if (i < 0) { index += N; state.x = targetX(index); setX(state.x); i = index - 1; } // wrap backwards via the clone set
       index = Math.max(0, Math.min(cards.length - 1, i));
       mark();
       gsap.killTweensOf(state);
-      gsap.to(state, { x: targetX(index), duration: 0.85, ease: 'smoothOut', onUpdate: () => setX(state.x), onComplete: settle });
+      gsap.to(state, { x: targetX(index), duration: 1.0, ease: 'power3.out', onUpdate: paint, onComplete: settle });
     };
+    const relayout = () => { measure(); state.x = targetX(index); paint(); };
 
     measure();
-    state.x = targetX(0); setX(state.x); mark();
-    const relayout = () => { measure(); state.x = targetX(index); setX(state.x); };
+    state.x = targetX(index); paint(); mark();
     window.addEventListener('resize', relayout);
     window.addEventListener('load', relayout, { once: true });
     ScrollTrigger.addEventListener('refresh', relayout);
 
-    if (prevBtn) prevBtn.addEventListener('click', () => go(index - 1));
     if (nextBtn) nextBtn.addEventListener('click', () => go(index + 1));
     el.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
@@ -613,17 +617,15 @@
       vel = (e.clientX - lastX) / Math.max(1, now - lastT);
       lastX = e.clientX; lastT = now;
       state.x = startX + dx;
-      setX(state.x);
-      skewTo(Math.max(-8, Math.min(8, -vel * 6)));
+      paint();
     });
     const end = () => {
       if (!dragging) return;
       dragging = false;
       el.classList.remove('is-dragging');
-      skewTo(0);
       const projected = state.x + vel * 160;
       let best = 0, bestD = Infinity;
-      cards.forEach((_, k) => { const d = Math.abs(targetX(k) - projected); if (d < bestD) { bestD = d; best = k; } });
+      for (let k = 0; k < cards.length; k++) { const d = Math.abs(targetX(k) - projected); if (d < bestD) { bestD = d; best = k; } }
       go(best);
     };
     el.addEventListener('pointerup', end);

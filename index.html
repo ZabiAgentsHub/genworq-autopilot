@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/scene-01-architect.jpg" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=22">
   <!-- Fonts load without blocking first paint; metric-matched fallbacks in style.css hold the layout. -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Inter:wght@400;500;600&display=swap"></noscript>
@@ -392,13 +392,8 @@
           <h2 class="section-title r" id="work-title">Automation built for <em>your</em> industry.</h2>
           <p class="section-sub r">Six trades where we already run systems. Each one starts at the first enquiry and ends with a booked, invoiced job.</p>
         </div>
-        <div class="rail-controls r" role="group" aria-label="Browse industries">
-          <button class="rail-btn" type="button" data-rail-prev aria-label="Previous industry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-          <span class="rail-count" data-rail-count aria-live="polite">01 / 06</span>
-          <button class="rail-btn" type="button" data-rail-next aria-label="Next industry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-        </div>
       </header>
-      <div class="ticker" data-ticker tabindex="0" aria-roledescription="carousel" aria-label="Industries we automate">
+      <div class="ticker r" data-ticker tabindex="0" aria-roledescription="carousel" aria-label="Industries we automate">
         <ul class="ticker__track">
           <li class="card">
             <div class="card__grid" aria-hidden="true"></div>
@@ -450,6 +445,10 @@
             <ul class="card__tags" aria-label="What runs on autopilot"><li>Enquiry triage</li><li>Viewing booking</li><li>CRM sync</li></ul>
           </li>
         </ul>
+      </div>
+      <div class="rail-foot">
+        <span class="rail-hint" aria-hidden="true">Next industry</span>
+        <button class="rail-btn rail-btn--next" type="button" data-rail-next aria-label="Next industry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </section>
 
@@ -610,6 +609,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
-  <script src="script.js?v=21"></script>
+  <script src="script.js?v=22"></script>
 </body>
 </html>
