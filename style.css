@@ -1122,34 +1122,40 @@ html:not(.js) .timeline__fill, html.reduced .timeline__fill { transform: none; }
 .about__copy { margin: 1.75rem auto 0; max-width: 60ch; font-size: clamp(1rem, 1.25vw, 1.15rem); line-height: 1.65; color: var(--muted); }
 .about__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 2.25rem; }
 
-/* ---------- FINAL CTA ---------- */
+/* ---------- FINAL CTA: dark panel on a light band ---------- */
 .cta {
-  display: grid;
-  place-items: center;
-  padding: clamp(6rem, 16vh, 11rem) var(--gutter);
-  overflow: hidden;
+  padding: clamp(3rem, 8vh, 5rem) var(--gutter) clamp(5rem, 12vh, 8rem);
   text-align: center;
 }
-.cta::before {
+.cta__panel {
+  position: relative;
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: clamp(4rem, 10vh, 7rem) clamp(1.5rem, 5vw, 5rem);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(10, 10, 10, 0.18);
+}
+.cta__panel::before {
   content: "";
   position: absolute;
-  left: 50%; bottom: -30%;
-  width: 90vw; height: 70vh;
+  left: 50%; bottom: -40%;
+  width: 90%; height: 90%;
   transform: translateX(-50%);
-  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 106, 26, 0.28), transparent 70%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 106, 26, 0.32), transparent 70%);
   filter: blur(30px);
   pointer-events: none;
 }
-.cta__inner { position: relative; display: grid; justify-items: center; gap: 0; max-width: 70rem; }
+.cta__inner { position: relative; display: grid; justify-items: center; gap: 0; max-width: 60rem; margin: 0 auto; }
 .cta__title {
   margin-top: 1.5rem;
   font-family: var(--font-display);
   font-variation-settings: "opsz" 144;
   font-optical-sizing: auto;
-  font-size: clamp(2.8rem, 8.6vw, 10rem);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  max-width: 12ch;
+  font-size: clamp(2.6rem, 6vw, 6.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  max-width: 14ch;
 }
 .cta__sub {
   margin: clamp(1.5rem, 3vw, 2.5rem) auto clamp(2rem, 4vw, 3rem);
@@ -1204,7 +1210,7 @@ html:not(.js) .timeline__fill, html.reduced .timeline__fill { transform: none; }
 
 /* ---------- FOOTER + CONTACT ---------- */
 .footer {
-  padding: clamp(3rem, 8vh, 5rem) var(--gutter) 2rem;
+  padding: clamp(4rem, 10vh, 6rem) var(--gutter) 2rem;
   border-top: 1px solid var(--line);
   color: var(--muted);
 }
@@ -1239,21 +1245,21 @@ html:not(.js) .timeline__fill, html.reduced .timeline__fill { transform: none; }
   padding: 0.85rem 1rem;
   font: inherit;
   color: var(--fg);
-  background: var(--bg-elev);
+  background: #FFFFFF;
   border: 1px solid var(--line);
-  border-radius: 6px;
-  transition: border-color 240ms var(--ease);
+  border-radius: 8px;
+  transition: border-color 240ms var(--ease), box-shadow 240ms var(--ease);
 }
-.field__input:focus { outline: none; border-color: var(--brand); }
+.field__input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.12); }
 .field__input:focus-visible { outline: 2px solid var(--brand-glow); outline-offset: 2px; }
 textarea.field__input { resize: vertical; min-height: 6rem; }
 .contact__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
-.contact__note { font-size: var(--step--1); color: var(--brand-glow); }
+.contact__note { font-size: var(--step--1); color: var(--brand-text); }
 @media (min-width: 769px) {
   .footer__grid { grid-template-columns: 1fr 1.3fr; gap: var(--gutter); }
   .contact__row { grid-template-columns: 1fr 1fr; }
 }
-.footer__link { position: relative; color: rgba(255, 255, 255, 0.8); transition: color 240ms var(--ease); }
+.footer__link { position: relative; color: var(--fg); opacity: 0.85; transition: opacity 240ms var(--ease); }
 .footer__link::after {
   content: "";
   position: absolute;
@@ -1264,7 +1270,7 @@ textarea.field__input { resize: vertical; min-height: 6rem; }
   transform-origin: right;
   transition: transform 240ms var(--ease);
 }
-.footer__link:hover { color: var(--fg); }
+.footer__link:hover { opacity: 1; }
 .footer__link:hover::after { transform: scaleX(1); transform-origin: left; }
 
 /* ---------- Reveal targets (hidden until JS animates them in) ---------- */

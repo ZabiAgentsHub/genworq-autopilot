@@ -154,6 +154,22 @@
 
     const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
     fontsReady.then(scheduleRefresh); // ScrollTrigger already refreshes itself on `load`.
+
+    // FAQ panels change the page height → keep trigger positions honest.
+    $$('.faq__item').forEach((d) => d.addEventListener('toggle', scheduleRefresh));
+
+    // Safety net: nothing that should already be on screen may stay hidden
+    // (e.g. a trigger measured before late layout shifts). Runs after load
+    // and again whenever ScrollTrigger refreshes.
+    const revealVisible = () => {
+      const limit = window.innerHeight * 0.95;
+      $$('.r').forEach((el) => {
+        if (getComputedStyle(el).visibility !== 'hidden') return;
+        if (el.getBoundingClientRect().top < limit) gsap.to(el, { autoAlpha: 1, y: 0, duration: 0.6, overwrite: 'auto' });
+      });
+    };
+    window.addEventListener('load', () => setTimeout(revealVisible, 400), { once: true });
+    ScrollTrigger.addEventListener('refresh', () => setTimeout(revealVisible, 50));
   }
 
   /* ---------- Static / reduced-motion mode ---------- */
