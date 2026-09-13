@@ -346,9 +346,11 @@
       scrollTrigger: { trigger: section, start: 'top top', end: 'bottom bottom', scrub: 0.8, markers: false },
     });
 
-    tl.to(words, { color: '#FFFFFF', y: 0, duration: 0.5, ease: 'none', stagger: { each: step } }, 0)
+    const ink = getComputedStyle($('.mission__text')).color;
+    const accent = getComputedStyle(section).getPropertyValue('--brand-text').trim() || '#C94A06';
+    tl.to(words, { color: ink, y: 0, duration: 0.5, ease: 'none', stagger: { each: step } }, 0)
       .to(strike, { scaleX: 1, duration: 0.35, ease: 'none' }, gi * step + 0.35)
-      .to(moves, { scale: 1.1, marginRight: '0.28em', color: '#FFB37A', duration: 0.4, ease: 'none' }, mi * step + 0.3)
+      .to(moves, { scale: 1.1, marginRight: '0.28em', color: accent, duration: 0.4, ease: 'none' }, mi * step + 0.3)
       .to({}, { duration: 0.6 }); // hold on the finished sentence
   }
 
