@@ -989,8 +989,7 @@ html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 
   inset: -9px;
   border-radius: 50%;
   border: 1.5px dashed rgba(255, 106, 26, 0.55);
-  animation: orbit 14s linear infinite;
-  animation-play-state: paused;
+  animation: orbit 16s linear infinite;
 }
 .card__orbit::before {
   content: "";
@@ -1003,7 +1002,8 @@ html.reduced .ticker, html:not(.js) .ticker { overflow-x: auto; padding-bottom: 
   box-shadow: 0 0 0 4px rgba(255, 106, 26, 0.18), 0 0 12px rgba(255, 106, 26, 0.6);
 }
 @keyframes orbit { to { transform: rotate(360deg); } }
-.card.is-active .card__orbit { animation-play-state: running; }
+.card.is-active .card__orbit { animation-duration: 7s; border-color: rgba(255, 106, 26, 0.85); }
+html.reduced .card__orbit { animation: none; }
 .card__icon { position: relative; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .card__index { font-size: var(--step--1); letter-spacing: 0.15em; color: var(--muted); font-variant-numeric: tabular-nums; }
 .card__title {
