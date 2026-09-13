@@ -1300,3 +1300,18 @@ html.reduced .btn, html.reduced .nav__link::after, html.reduced .footer__link::a
   .agent__avatar, .agent__avatar img { transition: none; }
   .btn, .nav, .nav__link::after, .footer__link::after, .card, .card__grid { transition: none; }
 }
+
+/* ---------- Mobile stability (≤768px) ----------
+   The sticky-hero overlap and the long mission hold are desktop effects.
+   On phones they cause flashes of the video layer and a "stuck" feel, and
+   the animated grain + heavy blur cost more than they give. */
+@media (max-width: 768px) {
+  .hero { position: relative; z-index: 1; }
+  .hero__video { transform: none; }
+  .hero__haze { filter: blur(22px); animation: none; opacity: 0.45; }
+  .grain { display: none; }
+  html.js:not(.reduced) .mission { height: auto; }
+  html.js:not(.reduced) .mission__pin { position: static; height: auto; min-height: 0; padding: clamp(5rem, 14vh, 8rem) var(--gutter); }
+  .marquee { box-shadow: none; }
+  .agent:hover, .card:hover { transform: none; }
+}

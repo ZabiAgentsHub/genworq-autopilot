@@ -335,14 +335,17 @@
     const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
     Promise.race([fontsReady, new Promise((r) => setTimeout(r, 700))]).then(() => intro.play());
 
-    // Exit: content drifts up as the stats strip slides over the sticky hero.
-    gsap
-      .timeline({
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6, markers: false },
-      })
-      .to('.hero__content', { y: -140, opacity: 0, ease: 'none' }, 0)
-      .to('.hero__video', { scale: 1.08, ease: 'none' }, 0)
-      .to('.scroll-cue', { opacity: 0, ease: 'none', duration: 0.3 }, 0);
+    // Exit (desktop only, where the hero is sticky): content drifts up as the
+    // next band slides over it. On phones the hero scrolls away normally.
+    gsap.matchMedia().add('(min-width: 769px)', () => {
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6, markers: false },
+        })
+        .to('.hero__content', { y: -140, opacity: 0, ease: 'none' }, 0)
+        .to('.hero__video', { scale: 1.08, ease: 'none' }, 0)
+        .to('.scroll-cue', { opacity: 0, ease: 'none', duration: 0.3 }, 0);
+    });
   }
 
   /* ---------- Generic once-only reveal for a section ---------- */
@@ -366,9 +369,13 @@
     const mi = words.indexOf(moves);
     const step = 0.08;
 
-    // .mission is 250vh tall; .mission__pin is CSS sticky inside it.
+    // Desktop: .mission is 250vh tall and .mission__pin is CSS sticky, so the
+    // sentence assembles while the screen holds. Mobile: the section is its
+    // natural height and the words assemble as it passes through the viewport.
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: section, start: 'top top', end: 'bottom bottom', scrub: 0.8, markers: false },
+      scrollTrigger: isMobile()
+        ? { trigger: section, start: 'top 78%', end: 'bottom 55%', scrub: 0.6, markers: false }
+        : { trigger: section, start: 'top top', end: 'bottom bottom', scrub: 0.8, markers: false },
     });
 
     const ink = getComputedStyle($('.mission__text')).color;
@@ -638,6 +645,18 @@
     }, { once: true });
     const p = hero.play();
     if (p && p.catch) p.catch(() => {}); // autoplay blocked → poster holds the frame
+
+    // Stop decoding while the hero is off screen (saves battery, and stops the
+    // video layer being composited under the rest of the page on phones).
+    const io = new IntersectionObserver(
+      (entries) => {
+        const onScreen = entries[0].isIntersecting;
+        if (onScreen) { const q = hero.play(); if (q && q.catch) q.catch(() => {}); }
+        else hero.pause();
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(hero);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
